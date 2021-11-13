@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: oauth2-serve
+  autoconfigure:
+    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/eyescloud?serverTimezone=Asia/Shanghai
+    username: saber
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+  redis:
+    host: 127.0.0.1
+    database: 3
+    port: 6379
+
+server:
+  port: 8001
+  servlet:
+    context-path: /auth/
+keytool:
+  auth:
+    server:
+      maxClient: 30000
+      tokenValid: 14400
+      force: false
+      startRefresh: false
+      keyPath: classpath:jwt.jks
+      alias: jwt
+      secret: 123456
+logging:
+  level:
+    root: info
+    com.test: debug
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
+  client:
+    service-url:
+      register-with-eureka: true
+      fetch-registry: true
+      defaultZone: http://localhost:8761/eureka
